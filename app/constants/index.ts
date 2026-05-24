@@ -15,7 +15,7 @@ export const resumes: Resume[] = [
     id: "1",                                    // ID unic pentru fiecare CV
     companyName: "Google",                      // Compania la care aplici
     jobTitle: "Frontend Developer",             // Jobul pentru care aplici
-    imagePath: "/images/resume-1.png",          // Poza de previzualizare a CV-ului
+    imagePath: "/images/resume_01.png",          // Poza de previzualizare a CV-ului
     resumePath: "/resumes/resume-1.pdf",        // Fișierul PDF al CV-ului
     feedback: {
       overallScore: 85,                         // Scorul general (0-100)
@@ -45,7 +45,7 @@ export const resumes: Resume[] = [
     id: "2",
     companyName: "Microsoft",
     jobTitle: "Cloud Engineer",
-    imagePath: "/images/resume-2.png",
+    imagePath: "/images/resume_02.png",
     resumePath: "/resumes/resume-2.pdf",
     feedback: {
       overallScore: 55,                         // Scor mai mic = CV slab, AI-ul va da sfaturi de îmbunătățire
@@ -60,7 +60,7 @@ export const resumes: Resume[] = [
     id: "3",
     companyName: "Apple",
     jobTitle: "iOS Developer",
-    imagePath: "/images/resume-3.png",
+    imagePath: "/images/resume_03.png",
     resumePath: "/resumes/resume-3.pdf",
     feedback: {
       overallScore: 75,
