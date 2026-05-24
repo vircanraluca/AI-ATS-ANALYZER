@@ -1,8 +1,70 @@
-import React from 'react'
+import { useState, useCallback } from 'react'
+import { useDropzone } from 'react-dropzone'
+import { formatSize } from '~/lib/utils'
 
-const FileUploader = () => {
+const FileUploader = ({ onFileSelect }: { onFileSelect: (file: File | null) => void }) => {
+  const [file, setFile] = useState<File | null>(null);
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const selected = acceptedFiles[0];
+    if (selected) {
+      setFile(selected);
+      onFileSelect(selected);
+    }
+  }, [])
+
+  // Șterge fișierul selectat
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation(); // oprește evenimentul să ajungă la dropzone (ar redeschide file picker-ul)
+    setFile(null);
+    onFileSelect(null);
+  }
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: { 'application/pdf': ['.pdf'] },
+    maxSize: 20 * 1024 * 1024,
+    multiple: false,
+  })
+
   return (
-    <div>FileUploader</div>
+    <div className="w-full gradient-border">
+      <div {...getRootProps()} className="uplader-drag-area">
+        <input {...getInputProps()} />
+
+        <div className="space-y-4 cursor-pointer">
+          <div className="mx-auto w-16 h-16 flex items-center justify-center">
+            <img src="/icons/info.svg" alt="upload" className="size-20" />
+          </div>
+
+          {file ? (
+            <div className="uploader-selected-file">
+              <div className="flex items-center space-x-3">
+                <img src="/images/pdf.png" alt="pdf" className="size-10" />
+                <div>
+                  <p className="text-sm font-medium text-gray-700 truncate max-w-xs">{file.name}</p>
+                  <p className="text-sm text-gray-500">{formatSize(file.size)}</p>
+                </div>
+              </div>
+              {/* Buton de ștergere fișier */}
+              <button className="p-2 cursor-pointer" onClick={handleRemove}> {/* cursor-poinyer → cursor-pointer */}
+                <img src="/icons/cross.svg" alt="remove" className="w-4 h-4" /> {/* calea corectă */}
+              </button>
+            </div>
+          ) : (
+            <div>
+              <p className="text-lg text-gray-500">
+                <span className="font-semibold">
+                  {isDragActive ? 'Drop your PDF here' : 'Click to upload'}
+                </span>
+                {!isDragActive && ' or drag and drop'}
+              </p>
+              <p className="text-sm text-gray-400">PDF (max 20 MB)</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
 
